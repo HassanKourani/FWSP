@@ -1,0 +1,48 @@
+.app {
+    font-family: sans-serif;
+    margin-top: 1rem;
+    border-top: 1px solid #ABABFF;
+}
+
+.item {
+    border-bottom: 1px solid #ABABFF;
+}
+
+.itemBtn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+    font-size: 1rem;
+    text-align: left;
+    color: #ffffff;
+    background-color: transparent;
+    border: none;
+}
+
+.itemBtn:hover {
+    background-color: #262668;
+}
+
+.itemBtnExpanded {
+    background-color: #262668;
+}
+
+.itemContent {
+    transition: height 0.2s ease-in-out;
+}
+
+.itemPanel {
+    padding: 1rem;
+}
+
+.chevron {
+    margin-left: auto;
+    transition: transform 0.2s ease-in-out;
+}
+
+.itemBtnExpanded .chevron {
+    transform: rotate(180deg);
+}
