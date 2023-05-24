@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Dropdown from "../../utils/Dropdown";
 import { SessionService } from "../../SessionService";
 
-function MainHeader({ setSearch, search, handleSearch }) {
+function MainHeader({ setSearch, search, handleSearch, setComponent }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const user = SessionService.getUser();
   const path = window.location.pathname;
@@ -116,6 +116,22 @@ function MainHeader({ setSearch, search, handleSearch }) {
                 >
                   Collab
                 </Link>
+              </li>
+              <li
+                className="btn-sm text-white bg-purple-600 hover:bg-purple-700 ml-3 cursor-pointer"
+                onClick={() => {
+                  setComponent("home");
+                }}
+              >
+                Home
+              </li>
+              <li
+                className="btn-sm text-white bg-purple-600 hover:bg-purple-700 ml-3 cursor-pointer"
+                onClick={() => {
+                  setComponent("collabs");
+                }}
+              >
+                Collabs
               </li>
             </ul>
           </nav>

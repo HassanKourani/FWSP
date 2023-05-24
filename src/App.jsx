@@ -54,7 +54,7 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/main/:uid/:mid" element={<Meeting />} />
         <Route path="/admin" element={<AdminMain />} />
-        <Route path="/home/:userId" element={<HomeMain />} />
+        <Route path="/home" element={<HomeMain />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     </>

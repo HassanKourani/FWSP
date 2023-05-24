@@ -9,6 +9,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import Loading from "../../utils/Loading";
 import FancyCard from "../../utils/FancyCard";
 import { useNavigate } from "react-router-dom";
+import HomeMain from "../Home/HomeMain";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const Main = () => {
   const [favCollabs, setFavCollabs] = useState();
   const [search, setSearch] = useState("");
   const [pending, setPending] = useState(true);
+  const [component, setComponent] = useState("home");
 
   const q = query(
     collection(db, "collaborations"),
@@ -98,40 +100,49 @@ const Main = () => {
           setSearch={setSearch}
           search={search}
           handleSearch={handleSearch}
+          setComponent={setComponent}
         />
         {/* <Loading /> */}
         {/*  Page content */}
 
         <main className="grow flex justify-center">
+          <></>
           <div className="pt-32 pb-12 md:pt-40 md:pb-20 sm:w-3/4">
-            {!pending ? (
-              <div className="grid grid-cols-2 gap-4 mx-10 sm:gird-cols-3 md:grid-cols-3 lg:grid-cols-4">
-                {searchedCollabs && searchedCollabs.length > 0 ? (
-                  searchedCollabs.map((collab) => (
-                    <div
-                      key={collab.id}
-                      onClick={() =>
-                        navigate(`/main/${collab.id}`, {
-                          state: {
-                            collabName: collab.data().title,
-                          },
-                        })
-                      }
-                    >
-                      <FancyCard collab={{ ...collab.data(), id: collab.id }} />
-                    </div>
-                  ))
+            {component === "collabs" && (
+              <>
+                {!pending ? (
+                  <div className="grid grid-cols-2 gap-4 mx-10 sm:gird-cols-3 md:grid-cols-3 lg:grid-cols-4">
+                    {searchedCollabs && searchedCollabs.length > 0 ? (
+                      searchedCollabs.map((collab) => (
+                        <div
+                          key={collab.id}
+                          onClick={() =>
+                            navigate(`/main/${collab.id}`, {
+                              state: {
+                                collabName: collab.data().title,
+                              },
+                            })
+                          }
+                        >
+                          <FancyCard
+                            collab={{ ...collab.data(), id: collab.id }}
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <div className="flex justify-center col-span-full">
+                        <EmptyPage message={"No collabs yet"} />
+                      </div>
+                    )}
+                  </div>
                 ) : (
-                  <div className="flex justify-center col-span-full">
-                    <EmptyPage message={"No collabs yet"} />
+                  <div className="flex justify-center items-center mt-20 ">
+                    <Loading />
                   </div>
                 )}
-              </div>
-            ) : (
-              <div className="flex justify-center items-center mt-20 ">
-                <Loading />
-              </div>
+              </>
             )}
+            {component === "home" && <HomeMain />}
           </div>
         </main>
       </div>

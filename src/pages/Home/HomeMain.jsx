@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../Config";
 import { SessionService } from "../../SessionService";
-import QuestionCard from "../../utils/QuestionCard";
-import { Link } from "react-router-dom";
 import HomeQuestionCard from "../../utils/HomeQuestionCard";
 import Loading from "../../utils/Loading";
 const HomeMain = () => {
@@ -63,7 +55,7 @@ const HomeMain = () => {
   return (
     <>
       {isPending && (
-        <div className="h-screen flex justify-center items-center">
+        <div className="flex justify-center ">
           <Loading />
         </div>
       )}
