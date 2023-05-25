@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   addDoc,
   collection,
@@ -98,7 +98,7 @@ const HomeQuestionCard = ({ question }) => {
   };
 
   return (
-    <>
+    <Fragment key={question.id}>
       <div
         className="bg-gray-800/50 p-4 mb-4 mx-4 cursor-pointer hover:bg-white/10"
         onClick={(e) => handleGoToDiscussion(e)}
@@ -260,7 +260,7 @@ const HomeQuestionCard = ({ question }) => {
         onClick={(e) => handleReport(e)}
         setType={setType}
       />
-    </>
+    </Fragment>
   );
 };
 

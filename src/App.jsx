@@ -55,6 +55,7 @@ function App() {
         <Route path="/main/:uid/:mid" element={<Meeting />} />
         <Route path="/admin" element={<AdminMain />} />
         <Route path="/home" element={<HomeMain />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     </>

@@ -396,6 +396,13 @@ const Profile2 = () => {
     allDiscs && setSelectedTab(allDiscs);
   }, [allDiscs]);
 
+  const handleGoToChat = (e, uid) => {
+    e.preventDefault();
+    setDoc(doc(db, "users", user.id, "chat", uid), { userId: uid }).then(() => {
+      navigate("/chat", { state: { chatUserId: uid } });
+    });
+  };
+
   return (
     <>
       {/* --------------------LOGO --------------------------------*/}
@@ -539,8 +546,8 @@ const Profile2 = () => {
                     <label className="text-3xl">{updatedUser.name}</label>
                     {uid !== user.id && (
                       <div
-                        onClick={() => {
-                          navigate(`/chat/${uid}`);
+                        onClick={(e) => {
+                          handleGoToChat(e, uid);
                         }}
                       >
                         <svg

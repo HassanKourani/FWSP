@@ -50,13 +50,8 @@ const HomeMain = () => {
 
     fetchData().then(() => {
       setIsPending(false);
-      console.log(discussionsData);
     });
   }, []);
-
-  useEffect(() => {
-    console.log(discussionsData);
-  }, [discussionsData]);
 
   return (
     <>
@@ -68,7 +63,7 @@ const HomeMain = () => {
 
       {discussionsData?.map((question) => (
         <>
-          <HomeQuestionCard question={question} key={question.id} />
+          <HomeQuestionCard question={question} />
         </>
       ))}
     </>
