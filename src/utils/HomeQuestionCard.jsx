@@ -1,11 +1,23 @@
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { db } from "../Config";
 import { SessionService } from "../SessionService";
+import ReportModal from "./ReportModal";
+import ConfirmationModal from "./ConfirmationModal";
 
 const HomeQuestionCard = ({ question }) => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [profile, setProfile] = useState();
+  const [type, setType] = useState();
   const [userName, setUserName] = useState();
   const [isReported, setIsReported] = useState(false);
   const user = SessionService.getUser();
@@ -15,6 +27,21 @@ const HomeQuestionCard = ({ question }) => {
       setProfile(user.data().profile);
       setUserName(user.data().name);
     });
+
+    onSnapshot(
+      doc(
+        db,
+        "collaborations",
+        question.collabId,
+        "discussions",
+        question.id,
+        "reports",
+        user.id
+      ),
+      (snapshot) => {
+        setIsReported(snapshot.data() === undefined ? false : true);
+      }
+    );
   }, []);
   const handleGoToDiscussion = (e) => {
     e.preventDefault();
@@ -33,6 +60,43 @@ const HomeQuestionCard = ({ question }) => {
       });
     });
   };
+  const handleReport = (e) => {
+    e.preventDefault();
+    console.log(type);
+
+    getDoc(doc(db, "reports", question.id)).then((res) => {
+      if (!res.data()) {
+        setDoc(doc(db, "reports", question.id), {
+          collabId: question.collabId,
+        }).then(() => {
+          addDoc(collection(db, "reports", question.id, "users"), {
+            type: type,
+            reporterId: user.id,
+          });
+        });
+      } else {
+        addDoc(collection(db, "reports", question.id, "users"), {
+          type: type,
+          reporterId: user.id,
+        });
+      }
+    });
+
+    setDoc(
+      doc(
+        db,
+        "collaborations",
+        question.collabId,
+        "discussions",
+        question.id,
+        "reports",
+        user.id
+      ),
+      { type: type }
+    );
+    setIsReportModalOpen(false);
+  };
+
   return (
     <>
       <div
@@ -89,41 +153,41 @@ const HomeQuestionCard = ({ question }) => {
             )}
             {/* Report button unfilled */}
 
-            {/* {!isReported && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5 hover:text-red-600"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsReportModalOpen(true);
-                    }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
-                    />
-                  </svg>
-                )} */}
+            {!isReported && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5 hover:text-red-600"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsReportModalOpen(true);
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
+                />
+              </svg>
+            )}
             {/* Report button filled */}
-            {/* {isReported && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="red"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 2.25a.75.75 0 01.75.75v.54l1.838-.46a9.75 9.75 0 016.725.738l.108.054a8.25 8.25 0 005.58.652l3.109-.732a.75.75 0 01.917.81 47.784 47.784 0 00.005 10.337.75.75 0 01-.574.812l-3.114.733a9.75 9.75 0 01-6.594-.77l-.108-.054a8.25 8.25 0 00-5.69-.625l-2.202.55V21a.75.75 0 01-1.5 0V3A.75.75 0 013 2.25z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )} */}
+            {isReported && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="red"
+                className="w-5 h-5"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 2.25a.75.75 0 01.75.75v.54l1.838-.46a9.75 9.75 0 016.725.738l.108.054a8.25 8.25 0 005.58.652l3.109-.732a.75.75 0 01.917.81 47.784 47.784 0 00.005 10.337.75.75 0 01-.574.812l-3.114.733a9.75 9.75 0 01-6.594-.77l-.108-.054a8.25 8.25 0 00-5.69-.625l-2.202.55V21a.75.75 0 01-1.5 0V3A.75.75 0 013 2.25z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
           </div>
         </div>
 
@@ -185,6 +249,17 @@ const HomeQuestionCard = ({ question }) => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
+        onClick={(e) => handleConfirmDeleteModal(e)}
+      />
+      <ReportModal
+        isOpen={isReportModalOpen}
+        setIsOpen={setIsReportModalOpen}
+        onClick={(e) => handleReport(e)}
+        setType={setType}
+      />
     </>
   );
 };

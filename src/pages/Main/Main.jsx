@@ -10,6 +10,7 @@ import Loading from "../../utils/Loading";
 import FancyCard from "../../utils/FancyCard";
 import { useNavigate } from "react-router-dom";
 import HomeMain from "../Home/HomeMain";
+import { MainTabs } from "../../utils/MainTab";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Main = () => {
   const [favCollabs, setFavCollabs] = useState();
   const [search, setSearch] = useState("");
   const [pending, setPending] = useState(true);
-  const [component, setComponent] = useState("home");
+  const [component, setComponent] = useState("Home");
 
   const q = query(
     collection(db, "collaborations"),
@@ -100,15 +101,16 @@ const Main = () => {
           setSearch={setSearch}
           search={search}
           handleSearch={handleSearch}
-          setComponent={setComponent}
         />
         {/* <Loading /> */}
         {/*  Page content */}
 
         <main className="grow flex justify-center">
-          <></>
           <div className="pt-32 pb-12 md:pt-40 md:pb-20 sm:w-3/4">
-            {component === "collabs" && (
+            <div className="w-52 ml-4 mb-12">
+              <MainTabs setComponent={setComponent} />
+            </div>
+            {component === "Collabs" && (
               <>
                 {!pending ? (
                   <div className="grid grid-cols-2 gap-4 mx-10 sm:gird-cols-3 md:grid-cols-3 lg:grid-cols-4">
@@ -142,7 +144,7 @@ const Main = () => {
                 )}
               </>
             )}
-            {component === "home" && <HomeMain />}
+            {component === "Home" && <HomeMain />}
           </div>
         </main>
       </div>

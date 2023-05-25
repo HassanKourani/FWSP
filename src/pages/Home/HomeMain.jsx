@@ -4,6 +4,7 @@ import { db } from "../../Config";
 import { SessionService } from "../../SessionService";
 import HomeQuestionCard from "../../utils/HomeQuestionCard";
 import Loading from "../../utils/Loading";
+import QuestionCard from "../../utils/QuestionCard";
 const HomeMain = () => {
   // States
   const [discussionsData, setDiscussionsData] = useState([]);
@@ -49,8 +50,13 @@ const HomeMain = () => {
 
     fetchData().then(() => {
       setIsPending(false);
+      console.log(discussionsData);
     });
   }, []);
+
+  useEffect(() => {
+    console.log(discussionsData);
+  }, [discussionsData]);
 
   return (
     <>
