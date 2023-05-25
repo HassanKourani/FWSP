@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { db } from "../../Config";
 import { SessionService } from "../../SessionService";
 
-const FriendsList = ({ setSelectedUser }) => {
+const FriendsList = ({ setSelectedUser, setIsListOpen }) => {
   const [list, setList] = useState();
 
   const user = SessionService.getUser();
@@ -22,10 +22,12 @@ const FriendsList = ({ setSelectedUser }) => {
           user.map((res) => {
             return (
               <div
-                className=" flex  gap-4 items-center p-4 bg-gray-600/50 cursor-pointer hover:bg-gray-500/50 border-b border-gray-500/50"
+                className=" flex  gap-4 items-center p-4 bg-purple-600 sm:bg-gray-600/50 cursor-pointer hover:bg-purple-500 sm:hover:bg-gray-500/50 border-b border-gray-500/50"
                 onClick={() => {
                   setSelectedUser(res.id);
+                  setIsListOpen(false);
                 }}
+                key={res.id}
               >
                 <img
                   src={res.profile}

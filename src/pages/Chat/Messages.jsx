@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { db } from "../../Config";
 import { SessionService } from "../../SessionService";
+import MobileBurger from "../../utils/MobileBurger";
 
 const Messages = ({ messages, selectedUser }) => {
   const [textMessage, setTextMessage] = useState();
@@ -58,7 +59,7 @@ const Messages = ({ messages, selectedUser }) => {
   };
   return (
     <>
-      <div className="fixed top-0 w-full h-16 p-2 border-b border-purple-600/50 bg-gray-900">
+      <div className="flex justify-between items-center fixed top-16 sm:top-0 w-full h-16 p-2 border-y sm:border-b border-purple-600/50 bg-gray-900">
         {userInChat && (
           <div className="flex gap-3 items-center">
             <img
@@ -70,7 +71,7 @@ const Messages = ({ messages, selectedUser }) => {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-4 p-4 pb-16 pt-20">
+      <div className="flex flex-col gap-4 p-4 pb-16 pt-36 sm:pt-20">
         {messages &&
           messages.map((message) => (
             <div
@@ -85,10 +86,10 @@ const Messages = ({ messages, selectedUser }) => {
             </div>
           ))}
       </div>
-      <div className="fixed w-3/4 bottom-0 flex justify-center gap-2 bg-gray-900 py-2">
+      <div className="fixed w-full sm:w-3/4 bottom-0 flex justify-center gap-2 bg-gray-900 p-2 ">
         <input
           type="text"
-          className="w-3/4 bg-gray-800 border border-purple-500 focus:border-purple-600"
+          className="lg:w-3/4 md:w-1/2 w-full bg-gray-800 border border-purple-500 focus:border-purple-600"
           placeholder="Enter Message here..."
           value={textMessage}
           onChange={(e) => setTextMessage(e.target.value)}
