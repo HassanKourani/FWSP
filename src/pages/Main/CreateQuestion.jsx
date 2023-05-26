@@ -42,8 +42,6 @@ const CreateQuestion = ({ setCurrentComponent }) => {
 
     Promise.all([CheckProfanity(title), CheckProfanity(question)]).then(
       (censored) => {
-        console.log(censored);
-
         if (image) {
           const imageRef = ref(storage, image.name);
           uploadBytes(imageRef, image).then(() => {

@@ -62,7 +62,6 @@ const HomeQuestionCard = ({ question }) => {
   };
   const handleReport = (e) => {
     e.preventDefault();
-    console.log(type);
 
     getDoc(doc(db, "reports", question.id)).then((res) => {
       if (!res.data()) {

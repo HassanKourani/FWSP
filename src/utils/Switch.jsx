@@ -13,7 +13,7 @@ const Switch = ({ isPrivate, setIsPrivate }) => {
 
     updateDoc(doc(db, "collaborations", uid), {
       isPrivate: e.target.checked,
-    }).then(() => console.log("state updated"));
+    });
     setIsDisabled(false);
     setIsPrivate(e.target.checked);
   };

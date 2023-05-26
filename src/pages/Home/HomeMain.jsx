@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../../Config";
 import { SessionService } from "../../SessionService";
 import HomeQuestionCard from "../../utils/HomeQuestionCard";
 import Loading from "../../utils/Loading";
-import QuestionCard from "../../utils/QuestionCard";
+import cuteness from "../../images/cute-astronaut.png";
 const HomeMain = () => {
   // States
   const [discussionsData, setDiscussionsData] = useState([]);
@@ -54,7 +54,7 @@ const HomeMain = () => {
   }, []);
 
   return (
-    <>
+    <Fragment>
       {isPending && (
         <div className="flex justify-center ">
           <Loading />
@@ -62,11 +62,16 @@ const HomeMain = () => {
       )}
 
       {discussionsData?.map((question) => (
-        <>
+        <Fragment key={question.id}>
           <HomeQuestionCard question={question} />
-        </>
+        </Fragment>
       ))}
-    </>
+      {discussionsData.length === 0 && !isPending && (
+        <div className="flex justify-center">
+          <img src={cuteness} alt="Cuteness" />
+        </div>
+      )}
+    </Fragment>
   );
 };
 

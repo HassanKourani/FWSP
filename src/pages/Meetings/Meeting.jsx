@@ -10,7 +10,6 @@ const Meeting = () => {
 
   useEffect(() => {
     getDoc(doc(db, "collaborations", uid, "meetings", mid)).then((res) => {
-      console.log(res.data());
       const meetingSDK = new VideoSDKMeeting();
       const config = {
         name: `Guest`,

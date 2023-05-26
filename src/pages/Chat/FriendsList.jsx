@@ -22,7 +22,7 @@ const FriendsList = ({ setSelectedUser, setIsListOpen }) => {
           user.map((res) => {
             return (
               <div
-                className=" flex  gap-4 items-center p-4 bg-purple-600 sm:bg-gray-600/50 cursor-pointer hover:bg-purple-500 sm:hover:bg-gray-500/50 border-b border-gray-500/50"
+                className=" flex gap-4 items-center p-4 bg-purple-600 sm:bg-gray-600/50 cursor-pointer hover:bg-purple-500 sm:hover:bg-gray-500/50 border-b border-gray-500/50"
                 onClick={() => {
                   setSelectedUser(res.id);
                   setIsListOpen(false);

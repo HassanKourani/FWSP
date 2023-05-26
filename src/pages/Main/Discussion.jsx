@@ -43,9 +43,7 @@ const Discussion = ({ discussionId, setCurrentComponent }) => {
     Promise.all([
       CheckProfanity("fuck you"),
       CheckProfanity("damn this shit"),
-    ]).then((res) => {
-      console.log(res);
-    });
+    ]).then((res) => {});
   }, []);
 
   useEffect(() => {

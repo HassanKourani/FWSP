@@ -115,14 +115,9 @@ const Profile2 = () => {
     isUserProfile()
       ? setUpdatedUser(SessionService.getUser())
       : getDoc(doc(db, "users", uid)).then((res) => {
-          console.log(res);
           setUpdatedUser({ ...res.data(), id: res.id });
         });
   }, [uid]);
-
-  useEffect(() => {
-    console.log(updatedUser);
-  }, [updatedUser]);
 
   const handleUpdateProfile = (e) => {
     setLoader("info");
@@ -130,7 +125,6 @@ const Profile2 = () => {
       name: newName,
       description: newDescription,
     }).then(() => {
-      console.log("name and description are updated");
       setLoader();
     });
 
@@ -155,7 +149,6 @@ const Profile2 = () => {
         if (newPassword !== user.password) {
           updatePassword(authUser, newPassword)
             .then(() => {
-              console.log("password updated");
               setNewPassword("");
               setCheckPassword("");
               setOldPassword("");
@@ -204,7 +197,6 @@ const Profile2 = () => {
           updateDoc(doc(db, "users", user.id), {
             banner: url,
           }).then((res) => {
-            console.log("updated banner");
             setLoader("");
           });
           SessionService.setUser({
@@ -231,7 +223,6 @@ const Profile2 = () => {
           updateDoc(doc(db, "users", user.id), {
             profile: url,
           }).then((res) => {
-            console.log("updated profile");
             setLoader("");
           });
           SessionService.setUser({
@@ -298,7 +289,6 @@ const Profile2 = () => {
           });
         })
       ).then((allValues) => {
-        console.log(allValues);
         setAllDiscs(
           allValues.map((disc) => {
             return (

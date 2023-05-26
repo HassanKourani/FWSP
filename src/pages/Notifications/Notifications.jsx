@@ -12,11 +12,12 @@ import { useEffect, useState } from "react";
 import { SessionService } from "../../SessionService";
 import { Link, useNavigate } from "react-router-dom";
 import SnackBar from "../../utils/SnackBar";
+import cuteness from "../../images/cute-astronaut.png";
 
 const Notifications = () => {
   const user = SessionService.getUser();
   !user && window.location.assign("/");
-  const [allNotifications, setAllNotifications] = useState();
+  const [allNotifications, setAllNotifications] = useState([]);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -100,6 +101,7 @@ const Notifications = () => {
             onClick={() =>
               handleNotificationClick(notification.data(), notification.id)
             }
+            key={notification.id}
             className={
               notification.data().opened
                 ? "px-2 py-4 gap-2  flex flex-col border-b border-gray-600 cursor-pointer hover:bg-gray-700/50 "
@@ -185,7 +187,14 @@ const Notifications = () => {
         </div>{" "}
         <div className="text-3xl m-auto w-3/4">Notifications</div>
         <div className="bg-gray-800/50 px-10 py-5  h-full rounded-lg">
-          <div className=""> {allNotifications}</div>
+          {allNotifications.length > 0 ? (
+            <div className="">{allNotifications}</div>
+          ) : (
+            <div className="flex flex-col items-center justify-center opacity-25">
+              <img src={cuteness} alt="Cuteness" />
+              <span className="text-2xl text-purple-500">No notification</span>
+            </div>
+          )}
         </div>
       </div>
       <SnackBar isOpen={isOpen} setIsOpen={setIsOpen} />

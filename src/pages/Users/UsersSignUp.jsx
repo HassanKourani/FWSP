@@ -52,7 +52,6 @@ function UsersSignUp() {
     },
     data: `{"personalizations":[{"to":[{"email":"${email}"}],"subject":"Verification"}],"from":{"email":"noreply@seniorproject-cd393.firebaseapp.com"},"content":[{"type":"text/plain","value":"Hello! Thank you for signing up to collaborative learning. Please verify your account using this code: ${randomNumber}"}]}`,
   };
-  console.log(randomNumber);
 
   const emailsQuery = query(
     collection(db, "users"),
@@ -91,7 +90,6 @@ function UsersSignUp() {
           if (password.length >= 6) {
             if (password === checkPassword) {
               getDocs(emailsQuery).then((res) => {
-                console.log(res.empty);
                 if (res.empty) {
                   axios
                     .request(EmailVerificationOptions)
@@ -128,7 +126,6 @@ function UsersSignUp() {
         if (password.length >= 6) {
           if (password === checkPassword) {
             getDocs(emailsQuery).then((res) => {
-              console.log(res.empty);
               if (res.empty) {
                 axios
                   .request(EmailVerificationOptions)
@@ -222,7 +219,6 @@ function UsersSignUp() {
           setIsPending(false);
         });
     } else {
-      console.log("no no no ");
       setCodeErr(true);
       setIsPending(false);
     }

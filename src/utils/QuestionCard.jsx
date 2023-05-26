@@ -20,7 +20,6 @@ import ReportModal from "./ReportModal";
 import CheckProfanity from "./ProfanityAPI";
 
 const QuestionCard = ({ question, onClick, setCurrentComponent }) => {
-  console.log(question);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [profile, setProfile] = useState();
@@ -30,7 +29,6 @@ const QuestionCard = ({ question, onClick, setCurrentComponent }) => {
 
   const uid = useParams().uid;
   const user = SessionService.getUser();
-  //console.log(user.id, question.userId);
   const handleConfirmDeleteModal = (e) => {
     e.preventDefault();
     deleteDoc(doc(db, "collaborations", uid, "discussions", question.id)).then(
@@ -74,7 +72,6 @@ const QuestionCard = ({ question, onClick, setCurrentComponent }) => {
 
   const handleReport = (e) => {
     e.preventDefault();
-    console.log(type);
 
     getDoc(doc(db, "reports", question.id)).then((res) => {
       if (!res.data()) {
