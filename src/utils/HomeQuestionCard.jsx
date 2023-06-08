@@ -2,10 +2,14 @@ import { Fragment, useEffect, useState } from "react";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
+  query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { db } from "../Config";
@@ -59,6 +63,21 @@ const HomeQuestionCard = ({ question }) => {
         }
       });
     });
+  };
+
+  const handleConfirmDeleteModal = (e) => {
+    e.preventDefault();
+    deleteDoc(
+      doc(db, "collaborations", question.collabId, "discussions", question.id)
+    ).then(console.log(question.id));
+    getDocs(
+      query(
+        collection(db, "users", user.id, "discussions"),
+        where("discId", "==", question.id)
+      )
+    ).then((disc) =>
+      deleteDoc(doc(db, "users", user.id, "discussions", disc.docs[0].id))
+    );
   };
   const handleReport = (e) => {
     e.preventDefault();
@@ -132,6 +151,7 @@ const HomeQuestionCard = ({ question }) => {
               <span
                 onClick={(e) => {
                   e.stopPropagation();
+                  setIsDeleteModalOpen(true);
                 }}
               >
                 <svg
